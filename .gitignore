@@ -4,3 +4,5 @@
 
 #Project
 *.env
+constants.py
+data.txt
