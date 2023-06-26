@@ -17,14 +17,16 @@ os.environ["OPENAI_API_KEY"] = constants.OPENAI_API_KEY
 loader = TextLoader('data.txt')
 index = VectorstoreIndexCreator().from_loaders([loader])
 
-
 # print(index.query(query, llm=ChatOpenAI()))
 
 def query_function(query):
     loader = TextLoader('data.txt')
     index = VectorstoreIndexCreator().from_loaders([loader])
     return index.query(query, llm=ChatOpenAI())
-iface = gr.Interface(fn=query_function, inputs="text", outputs="text")
+
+iface = gr.Interface(fn=query_function, inputs="text", outputs="text", title="Chatbot Endress&Hauser")
+
+
 iface.launch()
 
 # with gr.Blocks() as demo:
