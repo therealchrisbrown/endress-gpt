@@ -7,6 +7,8 @@ from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 
 import gradio as gr
+import random
+import time
 
 import constants
 
@@ -24,33 +26,24 @@ def query_function(query):
     index = VectorstoreIndexCreator().from_loaders([loader])
     return index.query(query, llm=ChatOpenAI())
 
-iface = gr.Interface(fn=query_function, inputs="text", outputs="text", title="Chatbot Endress&Hauser")
+def clear():
+    return None, None
+
+# iface = gr.Interface(fn=query_function, inputs="text", outputs="text", title="Chatbot Endress&Hauser")
+
+with gr.Blocks() as iface:
+    gr.Markdown(
+        """
+        # Endress & Hauser GPT
+        Stelle deine Frage und erhalte eine Antwort.
+        """)
+    with gr.Row():
+        inp = gr.Textbox(label="Deine Frage:", placeholder="Was möchtest du wissen?")
+        out = gr.Textbox(label="Die Antwort:")
+    btn = gr.Button("Los geht's!")
+    btn.click(fn=query_function, inputs=inp, outputs=out)
+    clear = gr.ClearButton()
 
 
-iface.launch()
-
-# with gr.Blocks() as demo:
-#     chatbot = gr.Chatbot()
-#     msg = gr.Textbox()
-#     clear = gr.Button("Clear")
-#     chat_history = []
-
-#     def user(user_message, history):
-#         print("User message:", user_message)
-#         print("Chat history:", history)
-
-#         response = qa({"question": user_message, "chat_history": history})
-#         history.append((user_message, response["answer"]))
-#         print("Updated chat history:", history)
-#         return gr.update(value=""), history
-
-# msg.submit(user, [msg, chatbot], [msg, chatbot], queue=False)
-
-# clear.click(lambda: None, None, chatbot, queue=False)
-
-# if __name__ == "__main__":
-#     demo.launch(debug=True)
-
-
-# def ask_bot(text):
-#     output = 
+if __name__ == "__main__":
+    iface.launch()
