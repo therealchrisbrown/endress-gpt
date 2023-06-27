@@ -7,8 +7,6 @@ from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 
 import gradio as gr
-import random
-import time
 
 import constants
 
